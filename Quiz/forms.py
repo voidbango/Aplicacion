@@ -24,9 +24,9 @@ class ElegirInlineFormset(forms.BaseInlineFormSet):
             assert respuesta_correcta == Pregunta.NUMER_DE_RESPUESTAS_PERMITIDAS
         except AssertionError:
             raise forms.ValidationError('Exactamente una sola respuesta es permitida')
-#creando el sign up
-class RegistroFormulario(UserCreationForm):
 
+#Creando el sign up
+class RegistroFormulario(UserCreationForm):
     email = forms.EmailField(required=True)
     first_name = forms.CharField(required=True)
     last_name = forms.CharField(required=True)
@@ -35,11 +35,9 @@ class RegistroFormulario(UserCreationForm):
         model = User
         fields = [
             'first_name',
-            'last_name'
+            'last_name',
             'username',
             'email',
             'password1',
             'password2'
-
         ]
-

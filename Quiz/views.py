@@ -11,9 +11,9 @@ def inicio(request):
 
 def registro(request):
 
-    titulo = 'Crea una Cuenta'
+    titulo = 'Crear una Cuenta'
 
-    if request.method =='POST':
+    if request.method == 'POST':
         form = RegistroFormulario(request.POST)
         if form.is_valid():
             form.save()
@@ -24,7 +24,7 @@ def registro(request):
     context = {   
         
         'form':form,
-        'titulo':titulo
+        'titulo':titulo,
 
     }
 
