@@ -1,6 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
-
+from .forms import RegistroFormulario
 
 # Create your views here.
 def inicio(request):
@@ -8,3 +8,26 @@ def inicio(request):
         'bienvenido': 'Bienvenido'
     }
     return render(request, 'inicio.html', context)
+
+def registro(request):
+
+    titulo = 'Crea una Cuenta'
+
+    if request.method =='POST':
+        form = RegistroFormulario(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('')
+    else: 
+        form = RegistroFormulario()
+    
+    context = {   
+        
+        'form':form,
+        'titulo':titulo
+
+    }
+
+    return render(request, 'Usuario/registro.html', context )
+    
+
