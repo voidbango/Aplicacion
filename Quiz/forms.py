@@ -25,6 +25,7 @@ class ElegirInlineFormset(forms.BaseInlineFormSet):
         except AssertionError:
             raise forms.ValidationError('Exactamente una sola respuesta es permitida')
 
+
 #Creando el sign up
 class RegistroFormulario(UserCreationForm):
     email = forms.EmailField(required=True)
