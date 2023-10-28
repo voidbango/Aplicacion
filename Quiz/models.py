@@ -2,9 +2,9 @@ from django.db import models
 from django.conf import settings
 
 from django.contrib.auth.models import User
-
+from django.utils import timezone
 import random
-
+#pregunta
 class Pregunta(models.Model):
 
 	NUMER_DE_RESPUESTAS_PERMITIDAS = 1
@@ -74,3 +74,8 @@ class PreguntasRespondidas(models.Model):
 	respuesta = models.ForeignKey(ElegirRespuesta, on_delete=models.CASCADE, null=True)
 	correcta  = models.BooleanField(verbose_name='¿Es esta la respuesta correcta?', default=False, null=False)
 	puntaje_obtenido = models.DecimalField(verbose_name='Puntaje Obtenido', default=0, decimal_places=2, max_digits=6)
+
+
+class MiModelo(models.Model):
+    nombre = models.CharField(max_length=100)
+    fecha_creacion = models.DateTimeField(default=timezone.now)
