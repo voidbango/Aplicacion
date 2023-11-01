@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+<div class="div_eliminar">
+    <h1>
+        Confirmar Acción
+    </h1>
+    <form method="POST">
+        {% csrf_token %}
+        <p>
+            ¿Estás seguro de eliminar: <strong>{{instance.texto}}</strong>?
+        </p>
+        <button type="submit">
+            Confirmar
+        </button>
+        <a href="{{instance.content_objects.get_absolute_url}}">
+            Cancelar
+        </a>
+
+
+
+
+    </form>
+
+
+
+
+</div>
+
+<style>
+    .div_eliminar{
+        width: 50%;
+        margin: 100px auto;
+        background: #fff;
+        border-radius: 5px;
+        border: 1px solid #e6e6e6;
+        padding: 10px;
+    }
+
+    h1{
+        text-align: center;
+
+    }
+
+    button{
+        background: #98ca3f;
+        color: #fff;
+        padding: 10px 15px;
+        border-radius: 5px;
+        border: none;
+        font-size: 16px;
+        border-bottom: 5px solid #6d932b;
+        display: inline-block;
+        cursor: pointer;
+        outline: none;
+
+    }
+
+    p{
+        margin: 10px 0;
+
+    }
+</style>
+
+
+
+{% endblock %}

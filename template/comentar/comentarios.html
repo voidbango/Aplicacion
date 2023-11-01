@@ -29,12 +29,72 @@
             </div>
         </div>
     </article>
+    
+    <header>
 
+        {% if ver_comentarios.count > 1 %}
+            Hay <strong>{{ver_comentarios.count}}</strong> comentarios
+        {% else %}
+            Hay <strong>{{ver_comentarios.count}}</strong> comentario
+        {% endif %}
+
+        
+    </header>
+    
     {% for comentario in ver_comentarios %}
-    <div>
-        {{ comentario.usuario }}
-        {{ comentario.texto }}
+    <div class="div_ver_comentarios">
+
+        <strong>
+            {{ comentario.usuario }} <small>{{comentario.tiempo}}</small>
+        </strong>
+        <p class="p_comentario">
+             {{ comentario.texto }} <span></span>
+        </p>
+
+        {% if request.user == comentario.usuario %}
+        <a href="{% url 'eliminar' comentario.pk %}">
+            Eliminar Comentario
+        </a>
+        {% else %}
+
+        {% endif %}
+
+        <button class="b_responder" style="display: block;">
+            Responder
+        </button>
+
+        <div class="abrir_caja_reply">
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="padre_identificador" value="{{comentario.id}}">
+            {{form}}
+            <button type="submit" class="btn_enviar">
+                Enviar respuesta
+            </button>
+        </form>
+        </div>
+        <span class="contar_reply">
+            {{comentario.Hijo.count}} Respuesta{% if comentario.Hijo.count > 1 %}s{% endif %}
+
+        </span>
+|       {% if comentario.Hijo.count > 0 %}
+            {% for respuesta in comentario.Hijo %}
+                
+                <div class="">
+                        <p class="p_comentario">
+                            <strong>
+                                {{respuesta.usuario}}
+                            </strong>
+                        <span>
+                            {{respuesta.texto}}
+                        </span>
+                        </p>
+                </div>
+                
+            {% endfor %}
+        {% endif %}
     </div>
+    <hr>
     {% empty %}
     <h1>
         Publica el primer comentario
@@ -42,12 +102,70 @@
     {% endfor %}
 </div>
 
+<script>
+
+    $('.b_responder').click(function(e){
+        e.preventDefault();
+        $(this).next('.abrir_caja_reply').fadeToggle()
+    })
+
+</script>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@400;600&display=swap');
-p, h1, h2, h3{
+p, h1, h2, h3, small{
     font-family: 'Playpen Sans', cursive;
 }
+
+.p_comentario{
+    margin: 10px 0;
+    font-weight: 500;
+}
+
+.b_responder{
+    background: #00bcd4;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
+    font-size: 13px;
+    border-bottom: 5px solid #03a9f4;
+}
+
+.contar_reply{
+    width: 100px;
+    padding: 3px;
+    display: block;
+    font-size: 13px;
+    text-align: center;
+    margin: 10px 0;
+    cursor: pointer;
+    color: #fff;
+    background: #959494;
+    border-radius: 50px;
+}
+
+
+.btn_enviar{
+    background: #00bcd4;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
+    font-size: 13px;
+    border-bottom: 5px solid #03a9f4;
+}
+
+.abrir_caja_reply{
+    display: none;
+
+}
+
+.div_ver_comentarios{
+    margin: 10px 0;
+
+}
+
 .main_div{
 		width: 55%;
 		margin: 100px auto;
@@ -129,6 +247,5 @@ p, h1, h2, h3{
 
 }
 
-
-
+</style>
 {% endblock %}
