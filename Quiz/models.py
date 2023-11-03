@@ -4,7 +4,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.utils import timezone
 import random
-#pregunta
+#
 class Pregunta(models.Model):
 
 	NUMER_DE_RESPUESTAS_PERMITIDAS = 1
