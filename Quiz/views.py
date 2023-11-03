@@ -38,11 +38,11 @@ def tablero(request):
 
 def jugar(request):
 
-	QuizUser, created = QuizUsuario.objects.get_or_create(usuario=request.user)
+	QuizUserr, created = QuizUsuario.objects.get_or_create(usuario=request.user)
 
 	if request.method == 'POST':
 		pregunta_pk = request.POST.get('pregunta_pk')
-		pregunta_respondida = QuizUser.intentos.select_related('pregunta').get(pregunta__pk=pregunta_pk)
+		pregunta_respondida = QuizUserr.intentos.select_related('pregunta').get(pregunta__pk=pregunta_pk)
 		respuesta_pk = request.POST.get('respuesta_pk')
 
 		try:
@@ -50,14 +50,14 @@ def jugar(request):
 		except ObjectDoesNotExist:
 			raise Http404
 
-		QuizUser.validar_intento(pregunta_respondida, opcion_selecionada)
+		QuizUserr.validar_intento(pregunta_respondida, opcion_selecionada)
 
 		return redirect('resultado', pregunta_respondida.pk)
 
 	else:
-		pregunta = QuizUser.obtener_nuevas_preguntas()
+		pregunta = QuizUserr.obtener_nuevas_preguntas()
 		if pregunta is not None:
-			QuizUser.crear_intentos(pregunta)
+			QuizUserr.crear_intentos(pregunta)
 
 		context = {
 			'pregunta':pregunta
