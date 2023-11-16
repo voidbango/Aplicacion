@@ -45,8 +45,9 @@
     <div class="div_ver_comentarios">
 
         <strong>
-            {{ comentario.usuario }} <small>{{comentario.tiempo}}</small>
-        </strong>
+            {{ comentario.usuario }} <small data-tiempo="{{ comentario.tiempo|date:'c' }}">{{ comentario.tiempo|date:"D, d M Y H:i" }}</small>
+        </strong>  
+                
         <p class="p_comentario">
              {{ comentario.texto }} <span></span>
         </p>
@@ -110,6 +111,29 @@
     })
 
 </script>
+
+<!-- Asegúrate de incluir la biblioteca Luxon en tu página -->
+<script src="https://cdn.jsdelivr.net/npm/luxon@2.1.1/build/global/luxon.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Selecciona todos los elementos con el atributo data-tiempo
+    var elementosTiempo = document.querySelectorAll('[data-tiempo]');
+
+    // Configura la localización a español
+    luxon.Settings.defaultLocale = 'es';
+
+    // Itera sobre cada elemento y actualiza la hora
+    elementosTiempo.forEach(function(elemento) {
+        var tiempoISO = elemento.getAttribute('data-tiempo');
+        var tiempoLocal = luxon.DateTime.fromISO(tiempoISO, { zone: 'local' });
+        var horaFormateada = tiempoLocal.toFormat('cccc, dd LLL yyyy HH:mm');
+
+        elemento.textContent = horaFormateada;
+    });
+});
+</script>
+
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@400;600&display=swap');
