@@ -10,6 +10,7 @@
 			Los {{contar_user}} mejores jugadores
 			
 		</span>
+
 	</h1>
 
 
@@ -31,6 +32,27 @@
 			{% endfor %}
 		</tbody>
 	</table>
+	<head>
+		<style>
+			a {
+				display: block;
+				width: 200px;
+				text-align: center;
+				font-family: sans-serif; 
+				font-weight: 700;
+				border-radius: 5px;
+				margin: 120px auto;
+				padding: 15px 30px;
+				text-decoration: none;
+				color: #ffffff; 
+				background-color: rgb(9, 153, 169);
+        }
+		</style>
+	</head>
+	<ul>
+		<a href="{% url 'inicio' %}">Volver al inicio</a>
+
+	</ul>
 
 </div>
 

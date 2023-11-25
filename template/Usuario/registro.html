@@ -1,8 +1,53 @@
-<form method="POST" style="max-width: 400px; margin: 0 auto;">
-    {% csrf_token %}
-    <div style="background-color: #f5f5f5; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
-        <h2 style="text-align: center; color: #215E34;">Registro</h2>
-        {{ form.as_p }}
-        <button type="submit" style="background-color: #215E34; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px;">Enviar</button>
-    </div>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            background-color: #3fa45f;
+            background-image: url('/static/flores.gif');
+            background-repeat: repeat-x;
+            background-position: bottom ;
+            margin: 70px;
+        }
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        form > div {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #215E34;
+        }
+
+        button {
+            background-color: #215E34;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body> 
+    <form method="POST">
+        {% csrf_token %}
+        <div>
+            <h2>Registro</h2>
+            {{ form.as_p }}
+            <button type="submit">Enviar</button>
+        </div>
+    </form>
+</body>
+</html>

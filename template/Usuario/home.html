@@ -6,12 +6,17 @@
 		</h1>
         <style>
             body {
-                background-color: rgb(203, 165, 220);
+                background-color: rgb(125, 180, 224);
                 font-family: Verdana, Tahoma, sans-serif ;
                 text-align: center;
-				margin: 90px auto;
+                background-image: url('/static/cloud.gif');
+                background-repeat:no-repeat;
+                background-position:bottom;
+
+                margin: 60px;
 
             }
+
             a {
                 display: block;
                 width: 200px;
@@ -23,13 +28,13 @@
                 padding: 15px 30px;
                 text-decoration: none;
                 color: rgb(0, 0, 0);
-                background-color: rgb(199, 79, 191);
+                background-color: rgb(208, 88, 200);
             }
 				
         </style>       
     </head>
     <body>
-		<a href="{% url 'jugar' %}">Empezar el cuestionario</a>
+        <a href="{% url 'jugar' %}">Empezar el cuestionario</a>
     </body>
 </html>
 
