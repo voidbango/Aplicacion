@@ -116,3 +116,23 @@ def registro(request):
 def logout_vista(request):
 	logout(request)
 	return redirect('/')
+
+
+
+def puntaje_individual(request):
+    # Obtén el puntaje total del usuario actual
+    usuario_actual = request.user
+    puntaje_usuario_actual = 0
+
+    try:
+        quiz_usuario = QuizUsuario.objects.get(usuario=usuario_actual)
+        puntaje_usuario_actual = quiz_usuario.puntaje_total
+    except QuizUsuario.DoesNotExist:
+        pass
+
+    context = {
+        'usuario_actual': usuario_actual,
+        'puntaje_usuario_actual': puntaje_usuario_actual,
+    }
+
+    return render(request, 'play/puntaje_individual.html', context)

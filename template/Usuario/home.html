@@ -1,40 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenido {{user}}!!</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(to right, #82a4f8, #ffffff);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #4e4e4e;
+        }
 
-<html>
-    <head>
-		<h1>
-			Bienvenido {{user}}!!
-		</h1>
-        <style>
-            body {
-                background-color: rgb(125, 180, 224);
-                font-family: Verdana, Tahoma, sans-serif ;
-                text-align: center;
-                background-image: url('/static/cloud.gif');
-                background-repeat:no-repeat;
-                background-position:bottom;
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: #1c1c1c;
+            text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+        }
 
-                margin: 60px;
+        a {
+            display: inline-block;
+            width: 200px;
+            text-align: center;
+            font-family: 'Arial', 'Helvetica', sans-serif;
+            font-size: 1.2em;
+            font-weight: 700;
+            border-radius: 25px;
+            margin: 20px auto;
+            padding: 15px 30px;
+            text-decoration: none;
+            color: #ffffff;
+            background-color: #0066cc;
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+            animation: pulse 1s infinite;
+        }
 
+        a:hover {
+            background-color: #004080;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
             }
-
-            a {
-                display: block;
-                width: 200px;
-                text-align: center;
-                font-family: Arial, Helvetica, sans-serif;
-                font-weight: 700;
-                border-radius: 150px;
-                margin: 70px auto; 
-                padding: 15px 30px;
-                text-decoration: none;
-                color: rgb(0, 0, 0);
-                background-color: rgb(208, 88, 200);
+            50% {
+                transform: scale(1.1);
             }
-				
-        </style>       
-    </head>
-    <body>
-        <a href="{% url 'jugar' %}">Empezar el cuestionario</a>
-    </body>
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Bienvenido {{user}}!!</h1>
+    <a href="{% url 'jugar' %}">Empezar el cuestionario</a>
+</body>
 </html>
-

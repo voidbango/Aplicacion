@@ -1,67 +1,137 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu Página</title>
     <style>
         body {
+            background: url('https://th.bing.com/th/id/R.020f24c20ba49c23abf0aea106d54c74?rik=c7F14QYDzTlNag&riu=http%3a%2f%2fwww.v3wall.com%2fwallpaper%2f1366_768%2f1001%2f1366_768_20100111123916367031.jpg&ehk=wEaNUIKDEF%2biUkll%2fmFTmbjm%2fdkrcoXoRtJcEu6tPQc%3d&risl=&pid=ImgRaw&r=0') center center fixed; 
+            background-size: cover;
+            font-family: Verdana, Tahoma, sans-serif;
+            text-align: center;
             margin: 0;
-            background-color: #63e289;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
-        .fondo {
-        
-            background-image: url('/static/trash.gif') ;
-            background-position: left;
-            background-repeat:no-repeat ;
-            background-size: 400px 400px;
-    
-        }
+       
         a {
             display: block;
             width: 200px;
             text-align: center;
-            font-family: sans-serif; 
+            font-family: Arial, Helvetica, sans-serif;
             font-weight: 700;
             border-radius: 15px;
             margin: 12px auto;
             padding: 15px 30px;
             text-decoration: none;
-            color: #000000e2; 
-            background-color: rgb(1, 169, 230);
+            color: #215E34; 
+            background-color: #F5D7D7;
         }
 
         h1 {
-            color: #000000;
-            text-align: center;
-            margin: 100px auto;
-            font-size: 60px;
-            font-family: 'Lucida Sans' ; 
+            color: #215E34;
+            margin: 50px auto;
+            font-size: 4em;
+            font-style: italic;
+            text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+            animation: float 5s infinite ease-in-out;
         }
 
         h2 {
-            color: rgb(0, 0, 0);
-            text-align: center;
-            margin: 10px ;
+            color: #215E34;
+            margin: 0px auto;
             font-size: 15px;
-            font-family: 'Lucida Sans'; 
-
-            
         }
-         
+
+        #infoSection {
+            display: none;
+            margin-top: 20px;
+        }
+
+        #toggleInfo {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #215E34;
+            color: #B7E3A4;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        #socialIcons {
+            position: fixed;
+            left: 10px;
+            bottom: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        #socialIcons a {
+            text-decoration: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+        }
+
+        #facebookIcon {
+            color: #3b5998; 
+            background-color: #e9ebee;
+        }
+
+        #twitterIcon {
+            color: #00acee; 
+            background-color: #e9f5fe; 
+        }
+
+        #instagramIcon {
+            color: #bc2a8d; 
+            background-color: #fde3f5; 
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
     </style>
 </head>
 <body>
-    
-    <div class = "fondo fondo2" > 
-        <h1>Proyecto Cochayuyo</h1>
-        <h2>¡Debes registrarte en primera instancia!</h2>
-        <ul>
-            <a href="registro">Regístrate</a>
-            <a href="login">Iniciar sesión</a>
-            <a href="comentarios">¡Deja un comentario!</a>
-            <a href="tablero.PNG">Tabla de posiciones</a>
-        </ul>
-       
+    <h1>Chelonia</h1>
+    <h2>¡Debes registrarte en primera instancia!</h2>
+    <ul>
+        <a href="registro">Regístrate</a>
+        <a href="login">Iniciar sesión</a>
+        <a href="comentarios">¡Deja un comentario!</a>
+        <a href="tablero">Tabla de posiciones</a>
+    </ul>
+
+    <button id="toggleInfo">Mostrar Información</button>
+    <div id="infoSection">
+        <p>🌎 Cuida de la Tierra, es el único hogar que tenemos. Cada pequeño gesto cuenta. 💚 #CuidaElPlaneta #SéSostenible 🌱</p>
     </div>
-</body>    
+
    
+
+    </div>
+
+    <script>
+        document.getElementById('toggleInfo').addEventListener('click', function() {
+            var infoSection = document.getElementById('infoSection');
+            if (infoSection.style.display === 'none') {
+                infoSection.style.display = 'block';
+            } else {
+                infoSection.style.display = 'none';
+            }
+        });
+    </script>
+</body>
 </html>

@@ -8,7 +8,8 @@ from .views import (
 	HomeUsuario, 
 	jugar,
 	resultado_pregunta,
-	tablero
+	tablero,
+	puntaje_individual
 )
 
 urlpatterns = [
@@ -21,6 +22,7 @@ urlpatterns = [
 	path('logout_vista/', logout_vista, name='logout_vista'),
 	path('registro/', registro, name='registro'),
 	path('tablero/', tablero, name='tablero'),
+	path('puntaje_individual/', puntaje_individual, name='puntaje_individual'),
 
 	
 	path('jugar/', jugar, name='jugar'),
