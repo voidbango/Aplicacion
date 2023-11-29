@@ -12,7 +12,7 @@ from .views import (
 	puntaje_individual,
 	user_statistics
 )
-
+#aaaaaaaaaaaaaaaaaaaaaaaaaaaa
 urlpatterns = [
 	
 	path('', inicio, name='inicio'),
