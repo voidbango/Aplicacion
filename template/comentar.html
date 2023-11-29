@@ -27,7 +27,7 @@
                     </div>
                     <a href="{% url 'post_idd' post.pk %}">
                         <button class="b_comentar">
-                            Comentar
+                            Deja tu comentario
                         </button>
                     </a>
 
@@ -43,26 +43,33 @@
     {% endfor %}
 </div>
 <style>
-    .main_div{
-        width: 55%;
-        margin: 100px auto;
+    .main_div {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        background-image: url('https://www.xtrafondos.com/wallpapers/degradado-difuminado-verde-y-azul-8004.jpg');
+        background-size: cover;
+        background-position: center;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
-    .feed_principal{
+
+    .feed_principal {
         margin-bottom: 10px;
         padding: 15px 20px 0;
-        background: #fff;
-        border-radius: 5px;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: background 0.3s ease;
     }
-    .feed_one{
-        position: relative;
 
+    .feed_principal:hover {
+        background: rgba(255, 255, 255, 0.9);
     }
-    .titulo_header{
-        margin-bottom: 10px;
-        word-wrap: break-word;
-        text-align: center;
-    }
-    .big{
+
+    .big {
         margin-right: 5px;
         margin-left: 0px;
         font-weight: bold;
@@ -70,47 +77,55 @@
         display: inline;
         line-height: 1.3;
     }
-    .feed_propiedad{
-        display: table;
-        width: 100px;
+
+    .feed_propiedad {
+        display: flex;
+        align-items: center;
+        width: 100%;
     }
-    .feed_avatar{
-        display: table-cell;
+
+    .feed_avatar {
         width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 15px;
     }
-    .userAvatar{
-        background-size: 100%;
+
+    .userAvatar {
+        background-size: cover;
         position: relative;
         display: block;
-        margin-right: 15px;
-        float: left;
         border-radius: 50%;
-        width: 35px;
-        height: 35px;
+        width: 100%;
+        height: 100%;
     }
-    .feed_detalles{
-        display: table-cell;
-        vertical-align: middle;
+
+    .feed_detalles {
+        flex: 1;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
-    .feed_meta{
+
+    .feed_meta {
         color: #b2b2b2;
     }
-    .b_comentar{
+
+    .b_comentar {
         outline: none;
         border: none;
-        padding: 10px;
+        padding: 15px;
         color: #fff;
         background: #68b2e3;
         border-radius: 5px;
-        display: block;
-        margin-right: 7px 0;
-        
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+
+    .b_comentar:hover {
+        background: #4a90e2;
     }
 </style>
 
 {% endblock %}
-
-
-
-
-

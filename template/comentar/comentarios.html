@@ -1,28 +1,34 @@
 {% extends 'base.html' %}
 
 {% block main %}
-<div class="main_div">
-    <article class="feed_one feed_principal">
-        <header class="titulo_header">
-            <h2 class="big">
+<div class="main-div" style="background-image: url('https://www.xtrafondos.com/wallpapers/degradado-difuminado-verde-y-azul-8004.jpg');">
+    <!-- Volver al inicio button -->
+    <div class="text-center mt-4">
+        <a href="{% url 'inicio' %}" class="btn btn-primary">Volver al inicio</a>
+    </div>
+
+    <!-- Article for the main post -->
+    <article class="feed-post">
+        <header class="post-header">
+            <h2 class="post-title">
                 {{ instance.texto }}
             </h2>
         </header>
-        <div class="feed_propiedad">
-            <div class="feed_avatar">
-                <a style="background-image: url('{{ instance.usuario.avatar_url }}')" class="userAvatar" href="#">
-                </a>
+        <!-- User details and commenting form -->
+        <div class="user-details">
+            <div class="user-avatar">
+                <a style="background-image: url('{{ instance.usuario.avatar_url }}')" class="avatar" href="#"></a>
             </div>
-            <div class="feed_detalles">
-                <div class="feed_meta">
+            <div class="details">
+                <div class="user-meta">
                     <a href="#">
                         {{ instance.usuario.username }}
                     </a>
                 </div>
-                <form method="POST">
+                <form method="POST" class="comment-form">
                     {% csrf_token %}
                     {{ form.as_p }}
-                    <button type="submit" class="btn_comentar">
+                    <button type="submit" class="btn-comment">
                         Comentar
                     </button>
                 </form>
@@ -30,248 +36,274 @@
         </div>
     </article>
     
-    <header>
-
+    <!-- Comment header -->
+    <header class="comment-header">
         {% if ver_comentarios.count > 1 %}
             Hay <strong>{{ver_comentarios.count}}</strong> comentarios
         {% else %}
             Hay <strong>{{ver_comentarios.count}}</strong> comentario
         {% endif %}
-
-        
     </header>
     
+    <!-- Iterate over comments -->
     {% for comentario in ver_comentarios %}
-    <div class="div_ver_comentarios">
+        <div class="comment">
+            <!-- Comment details -->
+            <strong>
+                {{ comentario.usuario }} <small data-tiempo="{{ comentario.tiempo|date:'c' }}">{{ comentario.tiempo|date:"D, d M Y H:i" }}</small>
+            </strong>  
+            <p class="comment-text">
+                {{ comentario.texto }} <span></span>
+            </p>
 
-        <strong>
-            {{ comentario.usuario }} <small data-tiempo="{{ comentario.tiempo|date:'c' }}">{{ comentario.tiempo|date:"D, d M Y H:i" }}</small>
-        </strong>  
-                
-        <p class="p_comentario">
-             {{ comentario.texto }} <span></span>
-        </p>
+            {% if request.user == comentario.usuario %}
+                <!-- Delete comment link -->
+                <a href="{% url 'eliminar' comentario.pk %}" class="delete-comment">
+                    Eliminar Comentario
+                </a>
+            {% endif %}
 
-        {% if request.user == comentario.usuario %}
-        <a href="{% url 'eliminar' comentario.pk %}">
-            Eliminar Comentario
-        </a>
-        {% else %}
-
-        {% endif %}
-
-        <button class="b_responder" style="display: block;">
-            Responder
-        </button>
-
-        <div class="abrir_caja_reply">
-        <form method="post">
-            {% csrf_token %}
-            <input type="hidden" name="padre_identificador" value="{{comentario.id}}">
-            {{form}}
-            <button type="submit" class="btn_enviar">
-                Enviar respuesta
+            <!-- Reply button -->
+            <button class="reply-btn">
+                Responder
             </button>
-        </form>
-        </div>
-        <span class="contar_reply">
-            {{comentario.Hijo.count}} Respuesta{% if comentario.Hijo.count > 1 %}s{% endif %}
 
-        </span>
-|       {% if comentario.Hijo.count > 0 %}
-            {% for respuesta in comentario.Hijo %}
-                
-                <div class="">
-                        <p class="p_comentario">
+            <!-- Reply form -->
+            <div class="reply-form">
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="padre_identificador" value="{{comentario.id}}">
+                    {{form}}
+                    <button type="submit" class="btn-send-reply">
+                        Enviar respuesta
+                    </button>
+                </form>
+            </div>
+
+            <!-- Reply count -->
+            <span class="reply-count">
+                {{comentario.Hijo.count}} Respuesta{% if comentario.Hijo.count > 1 %}s{% endif %}
+            </span>
+
+            <!-- Iterate over replies -->
+            {% if comentario.Hijo.count > 0 %}
+                {% for respuesta in comentario.Hijo %}
+                    <div class="reply">
+                        <p class="reply-text">
                             <strong>
                                 {{respuesta.usuario}}
                             </strong>
-                        <span>
-                            {{respuesta.texto}}
-                        </span>
+                            <span>
+                                {{respuesta.texto}}
+                            </span>
                         </p>
-                </div>
-                
-            {% endfor %}
-        {% endif %}
-    </div>
-    <hr>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <hr class="comment-divider">
     {% empty %}
-    <h1>
-        Publica el primer comentario
-    </h1>
+        <h1 class="no-comments">
+            Publica el primer comentario
+        </h1>
     {% endfor %}
 </div>
 
 <script>
-
-    $('.b_responder').click(function(e){
+    // JavaScript scripts
+    $('.reply-btn').click(function(e){
         e.preventDefault();
-        $(this).next('.abrir_caja_reply').fadeToggle()
-    })
-
-</script>
-
-<!-- Asegúrate de incluir la biblioteca Luxon en tu página -->
-<script src="https://cdn.jsdelivr.net/npm/luxon@2.1.1/build/global/luxon.min.js"></script>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Selecciona todos los elementos con el atributo data-tiempo
-    var elementosTiempo = document.querySelectorAll('[data-tiempo]');
-
-    // Configura la localización a español
-    luxon.Settings.defaultLocale = 'es';
-
-    // Itera sobre cada elemento y actualiza la hora
-    elementosTiempo.forEach(function(elemento) {
-        var tiempoISO = elemento.getAttribute('data-tiempo');
-        var tiempoLocal = luxon.DateTime.fromISO(tiempoISO, { zone: 'local' });
-        var horaFormateada = tiempoLocal.toFormat('cccc, dd LLL yyyy HH:mm');
-
-        elemento.textContent = horaFormateada;
+        $(this).next('.reply-form').fadeToggle()
     });
-});
-</script>
 
+    document.addEventListener('DOMContentLoaded', function() {
+        // Select all elements with the data-tiempo attribute
+        var elementosTiempo = document.querySelectorAll('[data-tiempo]');
+
+        // Configure localization to Spanish
+        luxon.Settings.defaultLocale = 'es';
+
+        // Iterate over each element and update the time
+        elementosTiempo.forEach(function(elemento) {
+            var tiempoISO = elemento.getAttribute('data-tiempo');
+            var tiempoLocal = luxon.DateTime.fromISO(tiempoISO, { zone: 'local' });
+            var horaFormateada = tiempoLocal.toFormat('cccc, dd LLL yyyy HH:mm');
+
+            elemento.textContent = horaFormateada;
+        });
+    });
+</script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@400;600&display=swap');
-p, h1, h2, h3, small{
-    font-family: 'Playpen Sans', cursive;
-}
+    /* CSS Styles */
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Roboto', sans-serif;
+        background-color: #f2f2f2;
+    }
 
-.p_comentario{
-    margin: 10px 0;
-    font-weight: 500;
-}
+    .main-div {
+        width: 70%;
+        margin: 50px auto;
+        background-size: cover;
+        background-position: center;
+        color: #333;
+        padding: 20px;
+        border-radius: 10px;
+    }
 
-.b_responder{
-    background: #00bcd4;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 5px;
-    border: none;
-    font-size: 13px;
-    border-bottom: 5px solid #03a9f4;
-}
+    .feed-post {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
 
-.contar_reply{
-    width: 100px;
-    padding: 3px;
-    display: block;
-    font-size: 13px;
-    text-align: center;
-    margin: 10px 0;
-    cursor: pointer;
-    color: #fff;
-    background: #959494;
-    border-radius: 50px;
-}
+    .post-header {
+        margin-bottom: 10px;
+    }
 
+    .post-title {
+        font-size: 24px;
+        font-weight: bold;
+        margin: 0;
+    }
 
-.btn_enviar{
-    background: #00bcd4;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 5px;
-    border: none;
-    font-size: 13px;
-    border-bottom: 5px solid #03a9f4;
-}
+    .user-details {
+        display: flex;
+        align-items: center;
+    }
 
-.abrir_caja_reply{
-    display: none;
+    .user-avatar {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 15px;
+    }
 
-}
+    .avatar {
+        display: block;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+    }
 
-.div_ver_comentarios{
-    margin: 10px 0;
+    .details {
+        flex: 1;
+    }
 
-}
+    .user-meta a {
+        color: #007bff;
+        text-decoration: none;
+        font-weight: bold;
+    }
 
-.main_div{
-		width: 55%;
-		margin: 100px auto;
-}
-.feed_principal{
-    margin-bottom: 15px;
-    padding: 15px 20px 0;
-    position: relative;
-    background: #fff;
-    border-radius: 5px;
-}
-.titulo_header{
-    margin-bottom: 10px;
-    word-wrap: break-word;
-}
-#id_texto{
-    width: 65%;
-    box-sizing: border-box;
-    font: inherit;
-    direction: ltr;
-    outline: none;
-    padding: 7px;
-    border-radius: 5px;
-    border: 1px solid #dee0e1;
-    min-width: 100%;
-    width: 100%;
-    max-width: 100%;
-    min-height: 50px;
-    max-height: 50px;
-    height: 50px;
-}
+    .comment-form {
+        margin-top: 10px;
+    }
 
+    .btn-comment {
+        background-color: #007bff;
+        color: #fff;
+        padding: 8px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
 
-.big{
-    font-weight: bold;
-    font-size: 19px;
-    display: inline;
-    margin: 5px;
-    line-height: 1.3;
-}
-.feed_propiedad{
-    display: table;
-    width: 100%;
-}
-.feed_avatar{
-    display: table-cell;
-    width: 45px;
-}
-.userAvatar{
-    background: transparent no-repeat 0 0;
-    background-size: 100%;
-    position: relative;
-    display: block;
-    margin-right: 15px;
-    float: left;
-    border-radius: 50%;
-    width: 35px;
-    height: 35px;
-}
-.feed_detalles{
-    font-size: 12px;
-    display: table-cell;
-    vertical-align: middle;
-}
-.feed_meta{
-    color: #b2b2bb;
-}
-.btn_comentar{
-    border: none;
-    padding: 7px;
-    width: 150px;
-    outline: none;
-    cursor: pointer;
-    display: block;
-    margin: 10px auto;
-    color: #ffF;
-    background: #333;
-    border-radius: 5px;
+    .comment-header {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
 
+    .comment {
+        background-color: #fff;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+    }
+
+    .comment strong {
+        font-weight: bold;
+    }
+
+    .comment-text {
+        margin: 10px 0;
+    }
+
+    .delete-comment {
+        color: #dc3545;
+        text-decoration: underline;
+        cursor: pointer;
+        margin-right: 10px;
+    }
+
+    .reply-btn {
+        background-color: #28a745;
+        color: #fff;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    .reply-form {
+        display: none;
+        margin-top: 10px;
+    }
+
+    .btn-send-reply {
+        background-color: #28a745;
+        color: #fff;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    .reply-count {
+        display: block;
+        font-size: 14px;
+        text-align: center;
+        margin-top: 10px;
+        color: #6c757d;
+    }
+
+    .reply {
+        background-color: #f8f9fa;
+        padding: 10px;
+        border-radius: 5px;
+        margin-top: 10px;
+    }
+
+    .reply strong {
+        font-weight: bold;
+    }
+
+    .reply-text {
+        margin: 5px 0;
+    }
+
+    .comment-divider {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+    }
+
+    .no-comments {
+        text-align: center;
+        font-size: 24px;
+        margin-top: 20px;
+        color: #6c757d;
+    }
+
+    /* ... (rest of your existing styles) */
     
-
-}
-
 </style>
 {% endblock %}
