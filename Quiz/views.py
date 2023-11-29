@@ -136,3 +136,10 @@ def puntaje_individual(request):
     }
 
     return render(request, 'play/puntaje_individual.html', context)
+
+def user_statistics(request):
+    # Obtén las estadísticas del usuario actual
+    quiz_usuario, created = QuizUsuario.objects.get_or_create(usuario=request.user)
+
+    context = {'user_stats': quiz_usuario}
+    return render(request, 'Estadisticas/user_statistics.html', context)
