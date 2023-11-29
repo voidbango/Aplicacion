@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block contenido %}
+
+<style>
+    body {
+        background-image: url('https://images.hdqwalls.com/wallpapers/abstract-green-gradient-bs.jpg');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        font-family: 'Arial', sans-serif; /* Cambia la fuente según tus preferencias */
+    }
+
+    .container {
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0px 0px 10px 0px #000000;
+        margin-top: 30px;
+    }
+
+    .jumbotron {
+        text-align: center;
+        padding: 20px;
+    }
+
+    .btn-container {
+        margin-top: 20px;
+    }
+
+    .form-check {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    .btn-success {
+        margin-top: 15px;
+    }
+
+    .estadisticas-container {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .estadisticas-container p {
+        font-size: 1.5em;
+        margin-bottom: 10px;
+    }
+</style>
+
+<div class="container">
+    <h2>Estadísticas Personales</h2>
+    <div class="estadisticas-container">
+        <p>Total de Preguntas Respondidas: {{ quizzes_completed }}</p>
+        <p>Puntuación Total: {{ puntaje_total }}</p>
+    </div>
+    <a href="{% url 'inicio' %}" class="btn btn-warning btn-lg">Volver al inicio</a>
+</div>
+
+{% endblock %}

@@ -38,32 +38,39 @@ def tablero(request):
 
 def jugar(request):
 
-	QuizUserr, created = QuizUsuario.objects.get_or_create(usuario=request.user)
 
-	if request.method == 'POST':
-		pregunta_pk = request.POST.get('pregunta_pk')
-		pregunta_respondida = QuizUserr.intentos.select_related('pregunta').get(pregunta__pk=pregunta_pk)
-		respuesta_pk = request.POST.get('respuesta_pk')
+    QuizUserr, created = QuizUsuario.objects.get_or_create(usuario=request.user)
 
-		try:
-			opcion_selecionada = pregunta_respondida.pregunta.opciones.get(pk=respuesta_pk)
-		except ObjectDoesNotExist:
-			raise Http404
 
-		QuizUserr.validar_intento(pregunta_respondida, opcion_selecionada)
+    if request.method == 'POST':
+        pregunta_pk = request.POST.get('pregunta_pk')
+        pregunta_respondida = QuizUserr.intentos.select_related('pregunta').get(pregunta__pk=pregunta_pk)
+        respuesta_pk = request.POST.get('respuesta_pk')
 
-		return redirect('resultado', pregunta_respondida.pk)
+        try:
+            opcion_selecionada = pregunta_respondida.pregunta.opciones.get(pk=respuesta_pk)
+        except ObjectDoesNotExist:
+            raise Http404
 
-	else:
-		pregunta = QuizUserr.obtener_nuevas_preguntas()
-		if pregunta is not None:
-			QuizUserr.crear_intentos(pregunta)
+        QuizUserr.validar_intento(pregunta_respondida, opcion_selecionada)
+        if 'quizzes_completed' not in request.session:
+            request.session['quizzes_completed'] = 0
+        request.session['quizzes_completed'] = request.session.get('quizzes_completed', 0) + 1
+        request.session.save()
+        return redirect('resultado', pregunta_respondida.pk)
 
-		context = {
-			'pregunta':pregunta
-		}
+    else:
+        pregunta = QuizUserr.obtener_nuevas_preguntas()
+        if pregunta is not None:
+            QuizUserr.crear_intentos(pregunta)
 
-	return render(request, 'play/jugar.html', context)
+        context = {
+            'pregunta':pregunta,
+            'quizzes_completed': request.session.get('quizzes_completed', 0),
+
+        }
+
+    return render(request, 'play/jugar.html', context)
 
 
 
@@ -139,7 +146,25 @@ def puntaje_individual(request):
 
 def user_statistics(request):
     # Obtén las estadísticas del usuario actual
-    quiz_usuario, created = QuizUsuario.objects.get_or_create(usuario=request.user)
+    usuario_actual = request.user
 
-    context = {'user_stats': quiz_usuario}
+    if usuario_actual.is_authenticated:
+        puntaje_total=0
+
+        try:
+            quiz_usuario = QuizUsuario.objects.get(usuario=usuario_actual)
+            puntaje_total = quiz_usuario.puntaje_total
+
+        except QuizUsuario.DoesNotExist:
+            pass
+        quizzes_completed = request.session.get('quizzes_completed', 0)
+
+        context = {
+            'user_stats': quiz_usuario,
+            'puntaje_total': puntaje_total,
+            'quizzes_completed': quizzes_completed,
+        }
+
+        return render(request, 'Estadisticas/user_statistics.html', context)
+
     return render(request, 'Estadisticas/user_statistics.html', context)
